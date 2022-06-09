@@ -1,3 +1,4 @@
+const Joi = require('Joi')
 const express = require('express')
 const router = express.Router();
 
@@ -54,7 +55,7 @@ router.put('/', (req, res) => {
 })
 
 router.delete('/', (req, res) => {
-    let target = genres.find(obj => obj.id === parseInt(req.body.id))
+    let target = genres.find(obj => obj.id === req.body.id)
     if (!target) return res.status(404).send("No genre with that id.")
 
     const index = genres.indexOf(target)
