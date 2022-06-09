@@ -1,7 +1,10 @@
 const express = require('express')
 const app = express()
-app.use(express.json())
 const Joi = require('joi')
+
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+app.use(express.static("public"))
 
 let genreNames = ["horror", "comedy", "action", "drama", "romance", "thriller", "sci-fi", "fantasy", "mystery", "animation", "adventure", "crime", "documentary", "family", "history", "music", "war", "western"]
 let genres = []
@@ -69,9 +72,6 @@ app.delete('/genres', (req, res) => {
     res.send(target)
 })
 
-const port = process.env.PORT || 3000
-app.listen(port, () => console.log(`Listening on port ${port}...`))
-
 function validateGenre(genre) {
     const schema = Joi.object({
         name: Joi.string().min(3).required()
@@ -79,3 +79,6 @@ function validateGenre(genre) {
 
     return schema.validate(genre)
 }
+
+const port = process.env.PORT || 3000
+app.listen(port, () => console.log(`Listening on port ${port}...`))
