@@ -58,28 +58,24 @@ async function populateIfEmpty() {
     }
 }
 
-router.get('/', (req, res) => {
-    Genre
-        .find({})
-        .select('name')
-        .then(genres => res.send(genres))
+router.get('/', async (req, res) => {
+    const genres = await Genre.find().sort('name')
+    res.send(genres)
 })
 
-router.get('/:query', (req, res) => {
+router.get('/:query', async (req, res) => {
     const search = mongoose.Types.ObjectId.isValid(req.params.query)
         ? { _id: req.params.query }
         : { name: req.params.query }
-    Genre
-        .find(search)
-        .then(genres => {
-            if (genres.length === 0) return res.status(404).send("No genre related to that query.")
-            else {
-                res.send(genres[0])
-            }
-        })
+    const genres = await Genre.find(search)
+
+    if (genres.length === 0) return res.status(404).send("No genre related to that query.")
+    else {
+        res.send(genres)
+    }
 })
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const { error } = validateGenre(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
@@ -87,38 +83,33 @@ router.post('/', (req, res) => {
         name: req.body.name
     })
 
-    Genre.find({ name: req.body.name }).count()
-        .then(count => {
-            if (count > 0) return res.status(400).send('Genre already exists.')
+    const count = await Genre.find({ name: req.body.name }).count()
+    if (count > 0) return res.status(400).send('Genre already exists.')
 
-            genre.save()
-            res.send(genre)
-        })
+    const result = await genre.save()
+    res.send(result)
 })
 
-router.put('/', (req, res) => {
-    Genre.findById(req.body.id).then(genre => {
-        if (!genre) return res.status(404).send("No genre with that id.")
+router.put('/', async (req, res) => {
+    const genre = await Genre.findById(req.body.id)
+    if (!genre) return res.status(404).send("No genre with that id.")
 
-        const { error } = validateGenre({ name: req.body.name })
-        if (error) return res.status(400).send(error.details[0].message)
+    const { error } = validateGenre({ name: req.body.name })
+    if (error) return res.status(400).send(error.details[0].message)
 
-        Genre.find({ name: req.body.name }).count()
-            .then(count => {
-                if (count > 0) return res.status(400).send('Genre already exists.')
+    const count = await Genre.find({ name: req.body.name }).count()
+    if (count > 0) return res.status(400).send('Genre already exists.')
 
-                genre.name = req.body.name
-                genre.save().then(obj => res.send(obj))
-            })
-    })
+    genre.name = req.body.name
+    const result = await genre.save()
+    res.send(result)
 })
 
-router.delete('/', (req, res) => {
-    Genre.findByIdAndDelete(req.body.id).then(genre => {
-        if (!genre) return res.status(404).send("No genre with that id.")
+router.delete('/', async (req, res) => {
+    const genre = await Genre.findByIdAndDelete(req.body.id)
+    if (!genre) return res.status(404).send("No genre with that id.")
 
-        res.send(genre)
-    })
+    res.send(genre)
 })
 
 function validateGenre(genre) {
