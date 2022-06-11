@@ -1,5 +1,6 @@
 const morgan = require('morgan')
 const genres = require('./routes/genres')
+const customers = require('./routes/customers')
 const express = require('express')
 const app = express()
 const Joi = require('joi')
@@ -12,6 +13,7 @@ if (app.get('env') === 'development') {
     console.log('Morgan enabled in development...')
 }
 app.use('/genres', genres)
+app.use('/api/customers', customers)
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Listening on port ${port}...`))
