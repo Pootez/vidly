@@ -19,9 +19,10 @@ const Customer = mongoose.model('Customer', mongoose.Schema({
         default: false
     },
     number: {
-        type: Number,
-        min: 0,
-        max: 999999999,
+        type: String,
+        trim: true,
+        minlength: 5,
+        maxlength: 12
     }
 }))
 
@@ -49,7 +50,7 @@ router.post('/', async (req, res) => {
         number: req.body.number
     })
 
-    const count = await Customer.find({ name: req.body.number }).count()
+    const count = await Customer.find({ number: req.body.number }).count()
     if (count > 0) return res.status(400).send('Already a customer with that number.')
 
     const result = await customer.save()
@@ -58,7 +59,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     if (req.body.number) {
-        const count = await Customer.find({ name: req.body.number }).count()
+        const count = await Customer.find({ number: req.body.number }).count()
         if (count > 0) return res.status(400).send('Already a customer with that number.')
     }
 
@@ -79,7 +80,7 @@ function validateGenre(customer) {
     const schema = Joi.object({
         name: Joi.string().min(2).required(),
         isGold: Joi.boolean(),
-        number: Joi.number().min(0).required()
+        number: Joi.string().min(5).max(12).required()
     })
 
     return schema.validate(customer)
