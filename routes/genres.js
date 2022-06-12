@@ -1,21 +1,11 @@
-const Joi = require('Joi')
+const { Genre, validateGenre } = require('../models/genre')
 const express = require('express')
-const router = express.Router();
-const mongoose = require('mongoose');
+const router = express.Router()
+const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/vidly')
     .then(() => console.log('Connected to MongoDB...'))
     .catch(err => console.log('Could not connect to MongoDB:', err))
     .then(() => populateIfEmpty())
-
-const Genre = mongoose.model('Genre', mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-        minlength: 3,
-        maxlength: 50
-    }
-}))
 
 async function populateCollection() {
     let genreNames = ["horror", "comedy", "action", "drama", "romance", "thriller", "sci-fi", "fantasy", "mystery", "animation", "adventure", "crime", "documentary", "family", "history", "music", "war", "western"]
@@ -111,13 +101,5 @@ router.delete('/', async (req, res) => {
 
     res.send(genre)
 })
-
-function validateGenre(genre) {
-    const schema = Joi.object({
-        name: Joi.string().min(3).required()
-    })
-
-    return schema.validate(genre)
-}
 
 module.exports = router
