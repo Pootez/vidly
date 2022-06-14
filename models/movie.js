@@ -32,7 +32,7 @@ function validateMovie(genre) {
         title: Joi.string().min(3).required(),
         genre: Joi.string().required(),
         numberInStock: Joi.number().min(0).required(),
-        dailyRentalRate: Joi.number().min(0).required()
+        dailyRentalRate: Joi.number().min(0)
     })
 
     return schema.validate(genre)
