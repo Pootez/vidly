@@ -1,5 +1,6 @@
 const morgan = require('morgan')
 const genres = require('./routes/genres')
+const movies = require('./routes/movies')
 const customers = require('./routes/customers')
 const express = require('express')
 const app = express()
@@ -13,6 +14,7 @@ if (app.get('env') === 'development') {
     console.log('Morgan enabled in development...')
 }
 app.use('/genres', genres)
+app.use('/movies', movies)
 app.use('/api/customers', customers)
 
 const port = process.env.PORT || 3000
