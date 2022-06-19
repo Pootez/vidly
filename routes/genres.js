@@ -2,10 +2,8 @@ const { Genre, validateGenre } = require('../models/genre')
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/vidly')
-    .then(() => console.log('Connected to MongoDB...'))
-    .catch(err => console.log('Could not connect to MongoDB:', err))
-    .then(() => populateIfEmpty())
+
+populateIfEmpty()
 
 async function populateCollection() {
     let genreNames = ["horror", "comedy", "action", "drama", "romance", "thriller", "sci-fi", "fantasy", "mystery", "animation", "adventure", "crime", "documentary", "family", "history", "music", "war", "western"]

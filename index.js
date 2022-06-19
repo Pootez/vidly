@@ -5,7 +5,11 @@ const customers = require('./routes/customers')
 const rentals = require('./routes/rentals')
 const express = require('express')
 const app = express()
-const Joi = require('joi')
+const mongoose = require('mongoose')
+
+mongoose.connect('mongodb://localhost/vidly')
+    .then(() => console.log('Connected to MongoDB...'))
+    .catch(err => console.log('Could not connect to MongoDB:', err))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
