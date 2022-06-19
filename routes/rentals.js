@@ -3,7 +3,6 @@ const { Movie } = require('../models/movie')
 const { Customer } = require('../models/customer')
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
 
 router.get('/', async (req, res) => {
     const rentals = await Rental.find()
