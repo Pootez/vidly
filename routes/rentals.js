@@ -1,8 +1,11 @@
 const { Rental, validateRental } = require('../models/rental')
 const { Movie } = require('../models/movie')
 const { Customer } = require('../models/customer')
+const Fawn = require('fawn')
 const express = require('express')
 const router = express.Router()
+
+Fawn.init('mongodb://localhost/vidly')
 
 router.get('/', async (req, res) => {
     const rentals = await Rental.find()
@@ -45,12 +48,20 @@ router.post('/', async (req, res) => {
         }
     })
 
-    const result = await rental.save()
+    try {
+        new Fawn.Task()
+            .save('rentals', rental)
+            .update('movies', { _id: movie._id }, {
+                $inc: { numberInStock: -1 }
+            })
+            .run()
 
-    movie.numberInStock--
-    await movie.save()
-
-    res.send(result)
+        res.send(rental)
+    }
+    catch (ex) {
+        console.log(ex)
+        res.status(500).send('Something failed.')
+    }
 })
 
 router.delete('/:id', async (req, res) => {
