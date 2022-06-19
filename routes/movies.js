@@ -36,15 +36,14 @@ router.post('/', async (req, res) => {
         dailyRentalRate: req.body.dailyRentalRate
     })
 
-    const result = await movie.save()
-    res.send(result)
+    res.send(movie)
 })
 
 router.put('/:id', async (req, res) => {
-    const result = await Movie.findByIdAndUpdate(req.params.id, req.body, { new: true })
-    if (!result) return res.status(404).send("No movie related to that id.")
+    const movie = await Movie.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    if (!movie) return res.status(404).send("No movie related to that id.")
 
-    res.send(result)
+    res.send(movie)
 })
 
 router.delete('/:id', async (req, res) => {
