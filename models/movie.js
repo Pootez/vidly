@@ -1,8 +1,7 @@
-const { number } = require('Joi')
 const Joi = require('Joi')
 const mongoose = require('mongoose')
 
-const Movie = mongoose.model('Movie', mongoose.Schema({
+const movieSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -17,7 +16,6 @@ const Movie = mongoose.model('Movie', mongoose.Schema({
     numberInStock: {
         type: Number,
         default: 0,
-        required: true,
         min: 0
     },
     dailyRentalRate: {
@@ -25,18 +23,21 @@ const Movie = mongoose.model('Movie', mongoose.Schema({
         default: 0,
         min: 0
     }
-}))
+})
 
-function validateMovie(genre) {
+const Movie = mongoose.model('Movie', movieSchema)
+
+function validateMovie(movie) {
     const schema = Joi.object({
         title: Joi.string().min(3).required(),
         genre: Joi.string().required(),
-        numberInStock: Joi.number().min(0).required(),
+        numberInStock: Joi.number().min(0),
         dailyRentalRate: Joi.number().min(0)
     })
 
-    return schema.validate(genre)
+    return schema.validate(movie)
 }
 
+exports.movieSchema = movieSchema
 exports.Movie = Movie
 exports.validateMovie = validateMovie
