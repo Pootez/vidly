@@ -18,8 +18,8 @@ if (app.get('env') === 'development') {
     app.use(morgan('tiny'))
     console.log('Morgan enabled in development...')
 }
-app.use('/genres', genres)
-app.use('/movies', movies)
+app.use('/api/genres', genres)
+app.use('/api/movies', movies)
 app.use('/api/customers', customers)
 app.use('/api/rentals', rentals)
 
