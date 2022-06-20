@@ -1,4 +1,5 @@
 const { Genre, validateGenre } = require('../models/genre')
+const auth = require('../middleware/auth')
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
@@ -63,7 +64,7 @@ router.get('/:query', async (req, res) => {
     }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const { error } = validateGenre(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
@@ -78,7 +79,7 @@ router.post('/', async (req, res) => {
     res.send(result)
 })
 
-router.put('/', async (req, res) => {
+router.put('/', auth, async (req, res) => {
     const genre = await Genre.findById(req.body.id)
     if (!genre) return res.status(404).send("No genre with that id.")
 
@@ -93,7 +94,7 @@ router.put('/', async (req, res) => {
     res.send(result)
 })
 
-router.delete('/', async (req, res) => {
+router.delete('/', auth, async (req, res) => {
     const genre = await Genre.findByIdAndDelete(req.body.id)
     if (!genre) return res.status(404).send("No genre with that id.")
 

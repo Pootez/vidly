@@ -1,11 +1,12 @@
 const { User } = require('../models/user')
+const auth = require('../middleware/auth')
 const Joi = require('joi')
 const bcrypt = require('bcrypt')
 const _ = require('lodash')
 const express = require('express')
 const router = express.Router()
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     const users = await User.find().sort('name')
     res.send(users)
 })
