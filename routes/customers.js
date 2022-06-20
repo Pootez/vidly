@@ -46,7 +46,7 @@ router.put('/:id', auth, async (req, res) => {
     res.send(result)
 })
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', [auth, admin], async (req, res) => {
     const result = await Customer.findByIdAndDelete(req.params.id)
     if (!result) return res.status(404).send("No genre with that id.")
 

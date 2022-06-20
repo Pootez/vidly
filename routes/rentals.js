@@ -65,7 +65,7 @@ router.post('/', auth, async (req, res) => {
     }
 })
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', [auth, admin], async (req, res) => {
     const rental = await Rental.findByIdAndDelete(req.params.id)
     if (!rental) return res.status(404).send("No rental with that id.")
 
