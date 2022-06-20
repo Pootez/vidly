@@ -1,0 +1,41 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  link(rel='icon' href='https://etc.usf.edu/presentations/extras/letters/fridge_magnets/green/32/V-300.png' type='image/x-icon')
+  link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+  style.
+    body {
+        overflow-x: hidden;
+        position: relative;
+        zoom: 2;
+    }
+    .centered * {
+        width: 50%;
+        margin: 0 auto;
+        text-align: center;
+    }
+  title Vidly
+// Navigation
+nav.navbar.navbar-inverse(role='navigation')
+  .container
+    // Brand and toggle get grouped for better mobile display
+    .navbar-header
+      a.navbar-brand(href='/') Vidly
+      ul.nav.navbar-nav
+        li
+          a(href='movies') Movies
+        li
+          a(href='genres') Genres
+        li
+          a(href='about.html') About
+#godown.godown-60
+div
+  .row
+    .centered
+      h1 Genres
+      ul(class='list-unstyled') 
+        each val in genres
+            li 
+                a(href='api/genres/' + val._id)= val.name

@@ -15,7 +15,8 @@
     "joi": "^17.6.0",
     "joi-objectid": "^4.0.2",
     "mongoose": "^6.3.6",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "pug": "^3.0.2"
   },
   "devDependencies": {
     "jshint": "^2.13.4"
