@@ -1,5 +1,6 @@
 const {Customer, validateGenre} = require('../models/customer')
 const auth = require('../middleware/auth')
+const admin = require('../middleware/admin')
 const express = require('express')
 const router = express.Router()
 

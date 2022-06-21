@@ -13,6 +13,7 @@
     "bcrypt": "^5.0.1",
     "config": "^3.3.7",
     "express": "^4.18.1",
+    "express-async-errors": "^3.1.1",
     "fawn": "^2.1.5",
     "joi": "^17.6.0",
     "joi-objectid": "^4.0.2",
@@ -20,7 +21,9 @@
     "lodash": "^4.17.21",
     "mongoose": "^6.3.6",
     "morgan": "^1.10.0",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "winston": "^3.0.0",
+    "winston-mongodb": "^5.0.7"
   },
   "devDependencies": {
     "jshint": "^2.13.4"
