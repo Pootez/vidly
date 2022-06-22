@@ -5,49 +5,6 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 
-populateIfEmpty()
-
-async function populateCollection() {
-    let genreNames = ["horror", "comedy", "action", "drama", "romance", "thriller", "sci-fi", "fantasy", "mystery", "animation", "adventure", "crime", "documentary", "family", "history", "music", "war", "western"]
-    let genres = []
-    genreNames.forEach(obj => {
-        genres.push(
-            new Genre({
-                name: obj
-            }))
-    })
-    try {
-        genres.forEach(genre => genre.save())
-        console.log('Number of genres:', genres.length)
-    }
-    catch (ex) {
-        console.log(ex.error)
-    }
-}
-
-async function isCollectionEmpty() {
-    console.log('Checking if collection is empty...')
-    try {
-        const count = await Genre.estimatedDocumentCount()
-        return count === 0
-    }
-    catch (ex) {
-        console.log(ex.error)
-    }
-}
-
-async function populateIfEmpty() {
-    try {
-        if (await isCollectionEmpty()) {
-            console.log('Populating collection...')
-            populateCollection()
-        }
-    }
-    catch (ex) {
-        console.log(ex.error)
-    }
-}
-
 router.get('/', async (req, res) => {
     const genres = await Genre.find().sort('name')
     res.send(genres)
